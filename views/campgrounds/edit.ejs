@@ -1,0 +1,62 @@
+<% layout('./layouts/boilerplate') %>
+    <div class="row">
+        <h1 class="text-center">Edit Campground</h1>
+        <div class="col-6 offset-3">
+            <form action="/campgrounds/<%=campground._id%>?_method=PUT" method="post" novalidate class="needs-validation" enctype="multipart/form-data" required>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input class="form-control" type="text" placeholder="Title" name="campground[title]" id="title" value="<%=campground.title%>" required>
+                    <div class="valid-feedback">Look good!</div>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input class="form-control" type="text" placeholder="Location" name="campground[location]" id="location" value="<%=campground.location%>" required>
+                    <div class="valid-feedback">Look good!</div>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input class="form-control" type="text" placeholder="Price" name="campground[price]" id="price" value="<%=campground.price%>" required>
+                    <div class="valid-feedback">Look good!</div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" placeholder="Description" name="campground[description]" id="description" cols="30" rows="10" required><%=campground.description%></textarea>
+                    <div class="valid-feedback">Look good!</div>
+                </div>
+                <div class="form-group">
+                    <label for="image">Add Images</label>
+                    <input class="form-control" type="file" multiple name="image" id="image">
+                </div>
+                <div class="mb-3">
+                    <% campground.images.forEach(function(img, i)  { %>
+                        <img src="<%=img.thumbnail%>" alt="" class="img-thumbnail">
+                        <input type="checkbox" name="deleteImages[]" id="img-<%=i%>" value="<%=img.filename%>">
+                        <label for="img-<%=i%>">Delete</label>
+                    <% }) %>
+                </div>
+                <button class="btn btn-primary btn-block">Save</button>
+            </form>
+            <a href="/campgrounds">Back</a>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+        'use strict'
+    
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+    
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+    
+            form.classList.add('was-validated')
+            }, false)
+        })
+        })()
+    </script>
